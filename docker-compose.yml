@@ -1,0 +1,38 @@
+version: '3.8'
+
+services:
+  app:
+    #image: 1c463ce82253
+    build:
+      context: ./NeuralNetwork
+      dockerfile: dockerfile
+    container_name: dockerNN
+    ports:
+      - 8888:5000
+    volumes:
+      - ./NeuralNetwork:/app
+      - ./Web/dist/assets/img:/app/img
+    depends_on:
+      - web
+  
+  web:
+    #image: cf47749380ab
+    build:
+      context: ./Web
+      dockerfile: dockerfile
+    container_name: dockerWeb
+    ports:
+      - 3333:3000
+    volumes:
+      - ./Web:/web
+
+  mysql:
+    image: mysql
+    container_name: mysql-latest
+    ports:
+      - 3306:3306
+    volumes:
+      - ./MySql/custom:/etc/mysql/conf.d
+      - ./MySql/data:/var/lib/mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=123456

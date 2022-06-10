@@ -1,0 +1,11 @@
+FROM node:18.2.0
+
+WORKDIR /web
+
+ADD . /web
+
+EXPOSE 3000
+
+RUN npm install
+
+CMD npm start
