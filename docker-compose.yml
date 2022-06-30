@@ -35,4 +35,4 @@ services:
       - ./MySql/custom:/etc/mysql/conf.d
       - ./MySql/data:/var/lib/mysql
     environment:
-      - MYSQL_ROOT_PASSWORD=123456
+      - MYSQL_ROOT_PASSWORD=${root_password}

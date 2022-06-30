@@ -17,35 +17,32 @@ $(function(){
             //url: userHost + ":" + userPort + "/login",
             dataType: "json",
             data: JSON.stringify({
-
+                "name": "Money"
             }),
             contentType: "application/json",
             success: function(response){
-                alert('預測結果如下');
                 $("#num_img").attr("src", "assets/img/num_" + response.index + ".png");
                 $("#num_img").show();
                 $("#img").show();
                 $("#img").attr("value", response.index);
                 $("#predictNum").text(response.predictNum);
-                /*if(response.msg != "" && response.msg != null){
-                    Swal.fire({//登入失敗
-                        title: 'Error!',
-                        text: response.msg,
+                //預測成功
+                if(response.predictResult == "1"){
+                    Swal.fire({
+                        title: '預測成功!',
+                        text: '預測正確',
+                        icon: 'success',
+                        confirmButtonText: 'OK'
+                    })
+                //預測失敗
+                }else if(response.predictResult == "0"){
+                    Swal.fire({
+                        title: '預測失敗!',
+                        text: '失敗為成功之母',
                         icon: 'error',
                         confirmButtonText: 'OK'
                     })
-                }else{//登入成功
-                    localStorage.token = response.access_token;
-                    localStorage.name = response.name;
-                    Swal.fire({
-                        title: 'Correct!',
-                        text: 'Jump to upload page',
-                        icon: 'success',
-                        confirmButtonText: 'OK'
-                    }).then((result) => {
-                        window.location.href="../index.html"
-                    })
-                }*/
+                }
             }/*,
             error: function(){
                 Swal.fire({
@@ -64,7 +61,7 @@ $(function(){
                 //url: userHost + ":" + userPort + "/login",
                 dataType: "json",
                 data: JSON.stringify({
-                    "index" : tempValue
+                    "index": tempValue
                 }),
                 contentType: "application/json"
             });
