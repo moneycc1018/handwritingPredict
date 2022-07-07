@@ -8,12 +8,16 @@ services:
       dockerfile: dockerfile
     container_name: dockerNN
     ports:
-      - 8888:5000
+      - 8888:5001
     volumes:
       - ./NeuralNetwork:/app
       - ./Web/dist/assets/img:/app/img
     depends_on:
       - web
+    environment:
+      - TZ=Asia/Taipei
+    networks:
+      - mynetwork
   
   web:
     #image: cf47749380ab
@@ -25,6 +29,10 @@ services:
       - 3333:3000
     volumes:
       - ./Web:/web
+    environment:
+      - TZ=Asia/Taipei
+    networks:
+      - mynetwork
 
   mysql:
     image: mysql
@@ -36,3 +44,21 @@ services:
       - ./MySql/data:/var/lib/mysql
     environment:
       - MYSQL_ROOT_PASSWORD=${root_password}
+      - TZ=Asia/Taipei
+    networks:
+      - mynetwork
+
+  cron:
+    build:
+      context: ./crontab
+      dockerfile: dockerfile
+    container_name: cronjobs
+    environment:
+      - TZ=Asia/Taipei
+    restart: unless-stopped
+    networks:
+      - mynetwork
+
+networks:
+  mynetwork:
+    name: my-network

@@ -12,8 +12,7 @@ db_database = config.get("db", "db_database")
 
 #資料處理
 def dataHandle(result_array):
-    now = dt.datetime.now()
-    now_time = now.strftime('%Y-%m-%d %H:%M:%S')
+    now_time = dt.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
     random_index = result_array[2]
     predict_num = str(np.int64(result_array[0]))
     true_num = str(result_array[1])

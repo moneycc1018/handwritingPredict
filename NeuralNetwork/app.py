@@ -12,8 +12,8 @@ app = FastAPI()
 origins = ["http://0.0.0.0:3333"]
 
 app.add_middleware(CORSMiddleware,
-                   allow_origins=origins,
-                   allow_credentials=True,
+                   allow_origins=["*"],
+                   allow_credentials=False,
                    allow_methods=["*"],
                    allow_headers=["*"])
 
@@ -36,7 +36,19 @@ def deleteImage(model: image_model):
     if os.path.isfile(image_path):
         os.remove(image_path)
 
-    return index
+    return JSONResponse(content={"response": "delete " + index})
+
+@app.post("/deleteBatchImage")
+def deleteBatchImage():
+    path = "/app/img"
+    dir_list = os.listdir(path)
+    for i in dir_list:
+        image_path = os.path.join(path, i)
+        if os.path.isfile(image_path):
+            if i.startswith("num_"):
+                os.remove(image_path)
+
+    return JSONResponse(content={"response": "delete all"})
 
 if __name__ == "__main__":
-    uvicorn.run(app="app:app", host="0.0.0.0", port=5000)
+    uvicorn.run(app="app:app", host="0.0.0.0", port=5001)

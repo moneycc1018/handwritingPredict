@@ -1,0 +1,12 @@
+FROM ubuntu:18.04
+
+RUN apt-get update && apt-get -y install cron && apt-get -y install curl
+
+COPY cronjobs /etc/cron.d/cronjobs
+COPY api-schedule.sh /etc/cron.d/api-schedule.sh
+
+RUN chmod 0644 /etc/cron.d/cronjobs &&\
+    crontab /etc/cron.d/cronjobs &&\
+    touch /var/log/cron.log
+
+CMD cron && tail -f /var/log/cron.log
