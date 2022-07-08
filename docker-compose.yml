@@ -30,7 +30,7 @@ services:
     volumes:
       - ./Web:/web
     environment:
-      - TZ=Asia/Taipei
+      - TZ=Asia/Taipei  
     networks:
       - mynetwork
 
