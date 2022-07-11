@@ -6,6 +6,8 @@ ADD . /web
 
 RUN npm install
 
-EXPOSE 3000
+RUN chown -R node /root/.npm/_logs && chown -R node *
+
+USER node
 
 CMD npm start
